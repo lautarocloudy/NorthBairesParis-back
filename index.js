@@ -13,22 +13,20 @@ conexion();
 const app = express();
 const puerto = process.env.PORT || 3000;
 
-
-const options = {
-	allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization'],
-	credentials: true,
-	origin: '*',
-	preflightContinue: false,
+const corsOptions = {
+  origin: "https://northbairesparis.netlify.app", // Reemplaza con tu dominio frontend
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization'],
+  credentials: true // Habilita las credenciales
 };
 
 // configurar cors
-app.use(cors(options));
+app.use(cors(corsOptions));
 
 app.use(fileUpload({
     useTempFiles : true,
     tempFileDir : './uploads'
 }));
-
 
 // convertir body a objeto js
 app.use(express.json());
@@ -37,10 +35,10 @@ app.use(express.urlencoded({extended:true}));
 const rutas_usuarios = require('./rutas/usuarios');
 app.use("/api/user", rutas_usuarios);
 
-
+// Manejar solicitudes OPTIONS
+app.options("/api/user/login", cors(corsOptions));
 
 // crear servidor y escuchar peticiones
 app.listen(puerto, ()=>{
     console.log("servidor corriendo en el puerto "+puerto);
 });
-
