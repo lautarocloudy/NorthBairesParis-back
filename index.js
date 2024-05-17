@@ -14,10 +14,10 @@ const app = express();
 const puerto = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: "https://northbairesparis.netlify.app", // Reemplaza con tu dominio frontend
-  methods: "GET,POST,PUT,DELETE",
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization'],
-  credentials: true // Habilita las credenciales
+	credentials: true,
+	origin: '*',
+	preflightContinue: false,
 };
 
 // configurar cors
